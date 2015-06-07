@@ -7,7 +7,9 @@
 //
 
 #import "AppDelegate.h"
-
+#import "APImageCreater.h"
+#import <Realm/Realm.h>
+#import "APAlbum.h"
 @interface AppDelegate ()
 
 @end
@@ -16,7 +18,15 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    /*
+      Так как нет четких инструкций по обновлени контекста, данные парсятся и мапятся 1 раз, если инфа есть в бд, альбом повторно не создается, сдесь можно реализовать логику проверки обновления, например сравнивая объекты из бд с серверными по time stamp
+     */
+    if ([APAlbum allObjects].count == 0) {
+        APImageCreater *creator = [[APImageCreater alloc]init];
+        [creator createDataAlbum:@"http://www.placecage.com/g/200/300"   name:@"Cage Gray Album"];
+        [creator createDataAlbum:@"http://www.placecage.com/c/200/300"   name:@"Cage Crazy Album"];
+        [creator createDataAlbum:@"http://placekitten.com/g/200/300"     name:@"Kitten special album"];
+    }
     return YES;
 }
 
